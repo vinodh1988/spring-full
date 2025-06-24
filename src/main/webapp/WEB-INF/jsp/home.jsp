@@ -21,5 +21,8 @@
       }
   %>
   
+  <h3>Counters</h3>
+  <h3>ApplicationCounter:<%=request.getAttribute("applicationCount") %></h3>  
+    <h3>SessionCounter:<%=request.getAttribute("sessionCount") %></h3> 
 </body>
 </html>
