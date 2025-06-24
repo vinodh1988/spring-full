@@ -7,6 +7,19 @@
 <title>Insert title here</title>
 </head>
 <body>
-  <h1>Welcome to the Home Page</h1>
+  <h1>${message}</h1>
+  <h2>Names List</h2>
+  <hr>
+  <%
+     String[] names = (String[])request.getAttribute("names");
+      if (names != null) {
+            for (String name : names) {
+                 out.println("<li>" + name + "</li>");
+            }
+      } else {
+            out.println("<p>No names available.</p>");
+      }
+  %>
+  
 </body>
 </html>
