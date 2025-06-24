@@ -16,4 +16,9 @@ public class ComputerService {
   public List<Computer> getComputers() {
 	return computerRepository.findAll();
   }
+  
+  public void addComputer(Computer computer) {
+      computerRepository.save(computer);
+  }
+  
 }
