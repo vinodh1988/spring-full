@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.solution.entities.Computer;
 import com.solution.repositories.ComputerRepository;
+import com.solution.utilities.RecordAlreadyExistsException;
 
 @Service
 public class ComputerService {
@@ -14,11 +15,15 @@ public class ComputerService {
   private ComputerRepository computerRepository;
   
   public List<Computer> getComputers() {
+	  
 	return computerRepository.findAll();
   }
-  
-  public void addComputer(Computer computer) {
-      computerRepository.save(computer);
+//  /Save method is not only used for insertion but also updation
+  public void addComputer(Computer computer) throws RecordAlreadyExistsException {
+      Computer c= computerRepository.findByCno(computer.getCno());
+      if(c != null) 
+    	  throw new RecordAlreadyExistsException();
+	  computerRepository.save(computer);
   }
   
 }

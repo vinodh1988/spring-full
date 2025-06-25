@@ -27,9 +27,13 @@ public class ComputerController {
 	}
 	
 	@PostMapping("")
-	public ResponseEntity<Computer> addComputer(@RequestBody Computer computer) {
-		
+	public ResponseEntity<Object> addComputer(@RequestBody Computer computer) {
+		try {
 		computerService.addComputer(computer);
 		return ResponseEntity.status(HttpStatus.CREATED).body(computer);
+		}
+		catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 }

@@ -10,5 +10,5 @@ public interface ComputerRepository  extends JpaRepository<Computer, Integer> {
 	// For example:
 	// List<Computer> findByName(String name);
 	// List<Computer> findByManufacturer(String manufacturer);
-
+  public Computer findByCno(Integer cno); // Example method to find by cno
 }
