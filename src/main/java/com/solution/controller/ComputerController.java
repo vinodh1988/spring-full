@@ -20,8 +20,14 @@ import com.solution.services.ComputerService;
 import com.solution.utilities.RecordAlreadyExistsException;
 import com.solution.utilities.RecordNotFoundException;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/computers")
+@Tag(name = "Computer API", description="All the operations of computer entity")
 public class ComputerController {
 
 	@Autowired
@@ -48,7 +54,17 @@ public class ComputerController {
 			
 	    return computers;
 	}
-	
+	@Operation(
+			   summary="Get computer by cno",
+			   description="Get Computer by passing cono "
+			)
+			@ApiResponses(
+				 value = {
+						 @ApiResponse(responseCode="200", description="Computer found with given cno"),
+						 @ApiResponse(responseCode="400", description="if No computer exists with given cno"),
+						 @ApiResponse(responseCode="500", description="Server related error")
+				 }	
+				)
 	@GetMapping("/{cno}")
 	public ResponseEntity<Computer> getComputerByCno(@PathVariable int cno) throws RecordNotFoundException
 	{
