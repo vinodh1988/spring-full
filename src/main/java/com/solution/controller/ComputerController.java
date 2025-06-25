@@ -5,12 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.solution.entities.Computer;
@@ -26,8 +28,25 @@ public class ComputerController {
 	private ComputerService computerService;
 	
 	@GetMapping("")
-	public List<Computer> getComputers() {
-		return computerService.getComputers();
+	public List<Computer> getComputers(@RequestParam(required = false) Double min,@RequestParam(required=false) Double max) throws RecordNotFoundException{
+		List<Computer> computers = null;
+		System.out.println("Min Price: " + min + ", Max Price: " + max);
+		if (min != null && max != null) {
+			computers = computerService.getComputersByPrice(min, max);
+		}
+		else if (min != null) {
+
+			computers = computerService.getComputersByPrice(min, Double.MAX_VALUE);
+		}
+		else if (max != null) {
+			// If only max is provided, set min to 0
+			computers = computerService.getComputersByPrice(0.0, max);
+		} 
+		else
+			
+			computers = computerService.getComputers();
+			
+	    return computers;
 	}
 	
 	@GetMapping("/{cno}")
@@ -54,5 +73,12 @@ public class ComputerController {
 		}
 		computerService.updateComputer(computer);
 		return ResponseEntity.status(HttpStatus.OK).body("record updated successfully");
+	}
+	
+	@DeleteMapping("/{cno}")
+	public ResponseEntity<String> deleteComputer(@PathVariable int cno) throws RecordNotFoundException
+	{
+		computerService.deleteComputer(cno);
+		return ResponseEntity.status(HttpStatus.OK).body("record deleted successfully");
 	}
 }

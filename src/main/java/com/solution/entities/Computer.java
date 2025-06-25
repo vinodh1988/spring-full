@@ -1,5 +1,6 @@
 package com.solution.entities;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -18,6 +19,11 @@ public class Computer {
     private String ram;
 @Column	
     private String disksize;
+
+@Column
+@Nullable
+	private Double price; // Graphics Processing Unit, if needed
+	
 	
 	public Computer() {
 		// Default constructor
@@ -60,6 +66,11 @@ public class Computer {
 	public void setDisksize(String disksize) {
 		this.disksize = disksize;
 	}
-	
+	public Double getPrice() {
+		return price;
+	}
+	public void setPrice(Double price) {
+		this.price = price;
+	}
 	
 }

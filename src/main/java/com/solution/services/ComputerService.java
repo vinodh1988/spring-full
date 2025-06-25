@@ -20,6 +20,9 @@ public class ComputerService {
 	return computerRepository.findAll();
   }
   
+  public List<Computer> getComputersByPrice(Double minPrice, Double maxPrice) {
+	  return computerRepository.getComputersbyPrice(minPrice, maxPrice);
+  }
 
   
   public Computer getComputerByCno(int cno) throws RecordNotFoundException {
@@ -48,6 +51,12 @@ public class ComputerService {
 	  computerRepository.save(computer);
   }
   
+  public void deleteComputer(int cno) throws RecordNotFoundException {
+	  Computer c= computerRepository.findByCno(cno);
+	  if(c == null) 
+		  throw new RecordNotFoundException();
+	  computerRepository.delete(c);
+  }
   
   
 }
