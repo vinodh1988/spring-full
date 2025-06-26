@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.solution.entities.Computer;
 import com.solution.services.ComputerService;
+import com.solution.utilities.MessageSender;
 import com.solution.utilities.RecordAlreadyExistsException;
 import com.solution.utilities.RecordNotFoundException;
 
@@ -32,6 +33,9 @@ public class ComputerController {
 
 	@Autowired
 	private ComputerService computerService;
+	
+	@Autowired
+	private MessageSender messageSender;
 	
 	@GetMapping("")
 	public List<Computer> getComputers(@RequestParam(required = false) Double min,@RequestParam(required=false) Double max) throws RecordNotFoundException{
@@ -69,6 +73,7 @@ public class ComputerController {
 	public ResponseEntity<Computer> getComputerByCno(@PathVariable int cno) throws RecordNotFoundException
 	{
 		Computer computer = computerService.getComputerByCno(cno);
+		
 		return ResponseEntity.status(HttpStatus.OK).body(computer);
 	}
 	
@@ -77,6 +82,8 @@ public class ComputerController {
 	{
 
 		computerService.addComputer(computer);
+		// Send a message to the queue
+		messageSender.send("New computer added: " + computer.getCno());
 		return ResponseEntity.status(HttpStatus.CREATED).body(computer);
 		
 	}
