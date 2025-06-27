@@ -11,8 +11,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.apps.entities.User;
-import com.apps.repositories.UserRepository;
+import com.solution.entities.User;
+import com.solution.repositories.UserRepository;
+
 
 
 
